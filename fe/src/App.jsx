@@ -9,16 +9,15 @@ function App() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const axiosInstance = axios.create({
-        baseURL: `${import.meta.env.VITE_BACKEND_URL}api`,
-        withCredentials: true,
-    });
+    const baseurl = `${import.meta.env.VITE_BACKEND_URL}api`;
 
     useEffect(() => {
         // Check login status on mount by calling backend
         const checkAuth = async () => {
             try {
-                await axiosInstance.get("/check-auth");
+                await axios.get(`${baseurl}/check-auth`, {
+                    withCredentials: true,
+                });
                 setIsLoggedIn(true);
             } catch {
                 setIsLoggedIn(false);
@@ -32,10 +31,11 @@ function App() {
         e.preventDefault();
         setError("");
         try {
-            await axiosInstance.post("/login", {
-                username,
-                password,
-            });
+            await axios.post(
+                `${baseurl}/login`,
+                { username, password },
+                { withCredentials: true }
+            );
             setIsLoggedIn(true);
         } catch (err) {
             setError(err.response?.data?.message || "Invalid credentials");
@@ -44,7 +44,12 @@ function App() {
 
     const handleLogout = async () => {
         try {
-            await axiosInstance.post("/logout");
+            await axios.post(
+                `${baseurl}/logout`,
+                {},
+                { withCredentials: true }
+            );
+            setIsLoggedIn(false);
         } catch {
             setError("Logout failed");
         }
