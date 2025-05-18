@@ -11,6 +11,8 @@ const corsOptions = {
     credentials: true,
     methods: ["GET", "POST"],
 };
+
+console.log("CORS options:", corsOptions);
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
