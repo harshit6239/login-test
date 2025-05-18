@@ -7,10 +7,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS;
+// Use comma-separated origins in ALLOWED_ORIGINS env variable
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(",").map((origin) => origin.trim())
+    : ["http://localhost:5173"];
 
 const corsOptions = {
     origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps, curl, etc.)
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
@@ -19,6 +23,8 @@ const corsOptions = {
     },
     credentials: true,
     methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Set-Cookie"],
 };
 
 console.log("CORS options:", corsOptions);
