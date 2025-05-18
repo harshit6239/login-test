@@ -9,7 +9,7 @@ function App() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const baseurl = `${import.meta.env.VITE_BACKEND_URL}api`;
+    const baseurl = `${import.meta.env.VITE_BACKEND_URL}/api`;
 
     useEffect(() => {
         // Check login status on mount by calling backend
