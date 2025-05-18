@@ -17,6 +17,9 @@ function App() {
             try {
                 await axios.get(`${baseurl}/check-auth`, {
                     withCredentials: true,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 });
                 setIsLoggedIn(true);
             } catch {
